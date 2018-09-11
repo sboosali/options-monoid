@@ -71,3 +71,62 @@ typeStringOf proxy = string
 
 --------------------------------------------------
 --------------------------------------------------
+{- Notes / Old Code
+
+
+
+typeStringOf
+  :: (Typeable a)
+  => proxy a
+  -> String
+typeStringOf proxy = typeString
+
+  where
+
+
+
+
+
+displayQualifiedTypeRepresentation
+  :: (Typeable a)
+  => TypeRep a
+  -> String
+displayQualifiedTypeRepresentation typeRepresentation = typeString
+
+  where
+
+
+
+
+
+displayQualifiedTypeConstructor
+  :: (Typeable a)
+  => TyCon
+  -> String
+displayQualifiedTypeConstructor proxy = typeString
+
+  where
+  typeConstructor = someTypeRepTyCon proxy
+
+  typeString =
+    [ typeConstructor & (tyConPackage)
+
+    , typeConstructor & (tyConModule > moduleName)
+    , typeConstructor & (tyConModule > modulePackage)
+
+    , typeConstructor & (tyConName)
+    ]
+
+{-
+splitApps :: TypeRep a -> (TyCon, [SomeTypeRep])
+
+
+SomeTypeRep
+
+
+-- fmap ($ typeConstructor) 
+-}
+
+
+-}
+--------------------------------------------------
