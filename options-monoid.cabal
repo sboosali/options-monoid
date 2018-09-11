@@ -3,7 +3,7 @@ cabal-version:       2.2
 
 ----------------------------------------
 
-name:                options-vinyl
+name:                options-monoid
 version:             0.0
 
 -- x-revision:          0
@@ -49,17 +49,17 @@ extra-source-files:
 -- REPOSITORY
 ----------------------------------------
 
-homepage:            http://github.com/sboosali/options-vinyl#readme
-bug-reports:         http://github.com/sboosali/options-vinyl/issues
+homepage:            http://github.com/sboosali/options-monoid#readme
+bug-reports:         http://github.com/sboosali/options-monoid/issues
 
 source-repository head
   type:     git
-  location: git://github.com/sboosali/options-vinyl.git
+  location: git://github.com/sboosali/options-monoid.git
   subdir:   .
 
 -- source-repository this
 --   type:     git
---   location: https://github.com/sboosali/options-vinyl/tree/v0.1
+--   location: https://github.com/sboosali/options-monoid/tree/v0.1
 --   subdir:   .
 
 ----------------------------------------
@@ -243,13 +243,23 @@ library
  ------------------------------
  ------------------------------
  exposed-modules:
+                 Options.Monoid
+                 
+                 Options.Monoid.Types
+                 Options.Monoid.Last
 
-  Options.Vinyl
-  Options.Vinyl.Types
+                 Options.EnvironmentVariable
+                 Options.EnvironmentVariable.Types
+
+                 Options.CommandLine
+                 Options.CommandLine.Types
+
+                 Options.JsonFile
+                 Options.JsonFile.Types
 
  other-modules:
-  Prelude_options_vinyl
-  Internal.Options.Vinyl
+  Prelude_options_monoid
+  Internal.Options.Monoid
 
  ------------------------------
  ------------------------------
@@ -265,47 +275,49 @@ library
   --------------------
   -- boot-libraries & standard-library packages,
   --------------------
-    base >=4.10 && <5
-  , text
-  , bytestring
-  , transformers
-  , mtl
-  , containers
+  
+               base >=4.10 && <5
+             , text
+             , bytestring
+             , transformers
+             , mtl
+             , containers
 
   --------------------
   -- extended(/unofficial) "standard-library" packages.
   --------------------
-  , deepseq
-  , hashable
-  , unordered-containers
+  
+             , deepseq
+             , hashable
+             , unordered-containers
 
    --------------------
    -- my libraries.
    --------------------
-  , spiros
-  , enumerate
-  , enumerate-function
+   
+             , spiros
+             , enumerate
 
    --------------------
-   -- parsing libraries.
+   -- system libraries.
    --------------------
-  , parsers
-  , trifecta
-  , charset
-
+   
+             , optparse-applicative
+             , directory
+             , language-bash
+                          
    --------------------
    -- records libraries.
    --------------------
-  , lens
-  , generic-lens
-  , vinyl
+   
+             , lens
+             , generic-lens
+             , vinyl
 
    --------------------
    -- (miscellaneous libraries).
    --------------------
---  , 
 
+             --, 
 
-----------------------------------------
--- 
 ----------------------------------------

@@ -7,11 +7,11 @@
 
 -}
 
-module Internal.Options.Vinyl where
+module Options.Monoid.Types where
 
 --------------------------------------------------
 
-import Prelude_options_vinyl
+import Prelude_options_monoid
 
 --------------------------------------------------
 

@@ -10,7 +10,6 @@ optional-packages:
  
  ../spiros/
  ../enumerate/enumerate
- ../enumerate/enumerate-function
 
  --------------------
  -- my (frequent) forks:

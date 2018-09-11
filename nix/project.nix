@@ -4,7 +4,7 @@
 ##################################################
 {
 
- name = "options-vinyl";
+ name = "options-monoid";
 
  root = ./..;
 

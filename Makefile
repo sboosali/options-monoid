@@ -8,10 +8,10 @@
 # Makefile Customizeables:Customize 
 ##################################################
 
-DefaultPackageName=options-vinyl
+DefaultPackageName=options-monoid
 #                          ^ [Customize]
 
-DefaultModule=Options.Vinyl
+DefaultModule=Options.Monoid
 #                          ^ [Customize]
 
 DefaultProjectFile=./cabal.project
