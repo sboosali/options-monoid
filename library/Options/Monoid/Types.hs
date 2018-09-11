@@ -11,11 +11,15 @@ module Options.Monoid.Types where
 
 --------------------------------------------------
 
-import Prelude_options_monoid
+import qualified "lens"         Control.Lens          as L
 
 --------------------------------------------------
 
+import qualified "generic-lens" Data.Generics.Product as G
 
+--------------------------------------------------
+
+import Prelude_options_monoid
 
 --------------------------------------------------
 --------------------------------------------------
