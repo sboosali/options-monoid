@@ -71,49 +71,55 @@ source-repository head
 --   description: Enable ...
 --   manual:      True
 
-----------------------------------------
--- COMMON_STANZAS
-----------------------------------------
-common haskell2020
+--------------------------------------------------
+-- Common Stanzas --------------------------------
+--------------------------------------------------
 
- default-language:
-   Haskell2010
+common sboo-haskell
 
  ------------------------------
+
+ default-language: Haskell2010
+ 
  ------------------------------
+ 
+ build-depends:
+               base >=4.10 && <5
+
+ ------------------------------
+
  ghc-options:
 
   --------------------
   -- warning groups
   --------------------
 
-  -Wall
+             -Wall
 
   --------------------
   -- disabled warnings
   --------------------
 
-  -Wno-unticked-promoted-constructors
+             -Wno-unticked-promoted-constructors
 
   --------------------
   -- enabled warnings
   --------------------
 
-  -- enable
-  -Wincomplete-uni-patterns
-  -Wincomplete-record-updates
-  -Widentities
-  -Wmissing-methods
-  -fwarn-tabs
- 
+  -- enable:
+
+             -Wmissing-methods
+             -fwarn-name-shadowing
+             -fwarn-tabs
+              
   --------------------
   -- typed-holes
   --------------------
 
   -- use `typed-holes`, not `undefined`, during development
 
-  -fdefer-typed-holes
-  -Wtyped-holes
+             -fdefer-typed-holes
+             -Wtyped-holes
 
   --------------------
   -- (miscellaneous warnings)
@@ -122,23 +128,47 @@ common haskell2020
   -- raise a warning into an error
   -- -Werror=missing-fields
 
+ ------------------------------
+ 
  if impl(ghc >= 8.0)
     ghc-options:
 
         --------------------
         -- warning groups
-        --------------------     
+        --------------------
 
-        -Wcompat
+                -Wcompat
       
         --------------------
         -- enabled warnings
         --------------------
 
-        -Wnoncanonical-monad-instances
-        -Wnoncanonical-monadfail-instances
+                -Wnoncanonical-monad-instances
+                -Wnoncanonical-monadfail-instances
+
+                -Wincomplete-record-updates
+                -Wincomplete-uni-patterns
+
+                -Widentities
+
+                -- -Wmissing-exported-signatures
+                -- -Whi-shadowing
 
  ------------------------------
+  
+ if impl(ghc >= 8.2)
+    ghc-options:
+
+        --------------------
+        -- enabled warnings
+        --------------------
+
+                -Wcpp-undef
+
+                -Wmissing-home-modules
+
+                -Wunbanged-strict-patterns
+
  ------------------------------
 
  default-extensions:
@@ -146,75 +176,77 @@ common haskell2020
    --------------------
    -- "controversial"
    --------------------
-   NoImplicitPrelude
+                    NoImplicitPrelude
 
    --------------------
    -- `deriving`
    --------------------
-   AutoDeriveTypeable
-   DeriveDataTypeable
-   DeriveGeneric
-   DeriveFunctor
-   DeriveFoldable
-   DeriveTraversable
-   DeriveLift
-   StandaloneDeriving
+                    AutoDeriveTypeable
+                    DeriveDataTypeable
+                    DeriveGeneric
+                    DeriveFunctor
+                    DeriveFoldable
+                    DeriveTraversable
+                    DeriveLift
+                    StandaloneDeriving
 
-   DerivingStrategies
-   DeriveAnyClass
-   GeneralizedNewtypeDeriving
+                    DerivingStrategies
+                    DeriveAnyClass
+                    GeneralizedNewtypeDeriving
 
    --------------------
    -- syntax
    --------------------
-   PackageImports
-   LambdaCase
-   EmptyCase
-   TypeOperators
-   PostfixOperators
-   BangPatterns
-   KindSignatures
-   NamedFieldPuns
-   RecordWildCards
-   TupleSections
-   MultiWayIf
-   DoAndIfThenElse
-   EmptyDataDecls
-   InstanceSigs
-   
+                    PackageImports
+                    LambdaCase
+                    EmptyCase
+                    TypeOperators
+                    PostfixOperators
+                    BangPatterns
+                    KindSignatures
+                    NamedFieldPuns
+                    RecordWildCards
+                    TupleSections
+                    MultiWayIf
+                    DoAndIfThenElse
+                    EmptyDataDecls
+                    InstanceSigs
+                       
    --------------------
    -- typeclasses
    --------------------
-   MultiParamTypeClasses
-   FlexibleContexts
-   FlexibleInstances
-   TypeFamilies
-   FunctionalDependencies
+                    MultiParamTypeClasses
+                    FlexibleContexts
+                    FlexibleInstances
+                    TypeFamilies
+                    FunctionalDependencies
 
    --------------------
    -- patterns
    --------------------
-   ViewPatterns
-   PatternSynonyms
+                    ViewPatterns
+                    PatternSynonyms
 
    --------------------
    -- (miscellaneous)
    --------------------
-   ScopedTypeVariables
+                    ScopedTypeVariables
+
+ ------------------------------
 
  other-extensions:
 
    --------------------
    -- macros
    --------------------
-   TemplateHaskell
+                  TemplateHaskell
    -- QuasiQuotes
 
    --------------------
    -- syntax (of literals)
    --------------------
-   OverloadedStrings
-   OverloadedLists
+                  OverloadedStrings
+                  OverloadedLists
 
    --------------------
    -- (miscellaneous)
@@ -227,18 +259,46 @@ common haskell2020
    -- GADTs RankNTypes
    -- (miscellaneous)
 
-----------------------------------------
--- LIBRARY
-----------------------------------------
+--------------------------------------------------
+
+common sboo-main
+
+ ------------------------------
+
+ ghc-options:
+ 
+   --------------------
+   -- Compilation -----
+   --------------------
+ 
+             -O2
+
+   --------------------
+   -- Runtime ---------
+   --------------------
+ 
+             -threaded
+             -rtsopts -with-rtsopts=-N             
+ 
+   --------------------
+   -- Warnings --------
+   --------------------
+ 
+             -Wno-missing-signatures
+             -fno-warn-type-defaults
+             
+ ------------------------------
+
+--------------------------------------------------
+-- Library ---------------------------------------
+--------------------------------------------------
 library
 
- import: haskell2020
+ import: sboo-haskell
 
  hs-source-dirs:
-  library
-
---TODO: signatures break repl.
- -- signatures
+                library
+                internals
 
  ------------------------------
  ------------------------------
@@ -320,4 +380,64 @@ library
 
              --, 
 
+--------------------------------------------------
+-- Tests -----------------------------------------
+--------------------------------------------------
+
+test-suite unit
+  import: sboo-haskell
+  import: sboo-main
+
+  type:                exitcode-stdio-1.0
+  main-is:             UnitTests.hs
+
+  hs-source-dirs:      tests/unit
+  other-modules:
+                Test.Unit.OptionsMonoid
+
+  -- build-tool-depends:
+  --                    hspec-discover:hspec-discover
+
+  build-depends:
+                tasty
+              , tasty-hunit
+              , HUnit
+
+--------------------------------------------------
+
+test-suite property
+  import: sboo-haskell
+  import: sboo-main
+
+  type:                exitcode-stdio-1.0
+  main-is:             PropertyTests.hs
+
+  hs-source-dirs:      tests/property
+  other-modules:
+                Test.Property.OptionsMonoid
+
+  build-depends:
+                tasty
+              , tasty-hedgehog
+              , hedgehog
+
+--------------------------------------------------
+
+test-suite golden
+  import: sboo-haskell
+  import: sboo-main
+
+  type:                exitcode-stdio-1.0
+  main-is:             GoldenTests.hs
+
+  hs-source-dirs:      tests/golden
+  other-modules:
+                Test.Golden.OptionsMonoid
+
+  build-depends:
+                tasty
+              , tasty-golden
+              , golden
+
+----------------------------------------
 ----------------------------------------

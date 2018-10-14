@@ -18,7 +18,11 @@ optional-packages:
 
 ----------------------------------------
 
-optimization: 0
- --TODO: only for development
+-- optimization: 0
+-- -- ^ [TODO] only for development
+
+----------------------------------------
+
+--tests: True
 
 ----------------------------------------

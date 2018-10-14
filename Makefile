@@ -14,6 +14,9 @@ DefaultPackageName=options-monoid
 DefaultModule=Options.Monoid
 #                          ^ [Customize]
 
+DefaultTarget=$(DefaultPackageName)
+#                          ^ [Customize]
+
 DefaultProjectFile=./cabal.project
 #                          ^ [Customize]
 
@@ -161,14 +164,14 @@ build-default:
 ##################################################
 
 test-default:
-	$(Cabal) new-test $(DefaultLibraryTarget)
+	$(Cabal) new-test $(DefaultTarget)
 
 .PHONY: test-default
 
 ##################################################
 
 bench-default:
-	$(Cabal) new-bench $(DefaultLibraryTarget)
+	$(Cabal) new-bench $(DefaultTarget)
 
 .PHONY: bench-default
 
